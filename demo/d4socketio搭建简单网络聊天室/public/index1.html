@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>第二个socket程序</title>
+	<script>
+		window.onload=function(){
+			var ws=new WebSocket('ws://127.0.0.1:3000')
+			ws.onopen=function(){
+				document.onmousemove=function(ev){
+					var event=ev||window.event
+					ws.send(JSON.stringify({x:event.clientX,y:event.clientY}))
+				}
+			}
+			var initialized
+			ws.onmessage=function(ev){
+				var obj=JSON.parse(event.data)
+				if(!initialized){
+					initialized=true
+					for(var id in obj){
+						remove(id,obj[id])
+					}
+				}else{
+					move(obj.id,obj.pos)
+				}
+			}
+		}
+		function move(id,pos){
+			var cursor=document.getElementById('cursor-'+id)
+			if(!cursor){
+				cursor=document.createElement('img')
+				cursor.id='cursor'+id
+				cursor.src='cursor.jpg'
+				cursor.style.position='absolute'
+				document.body.appendChild(cursor)
+				console.log(1);
+			}
+			cursor.style.left=pos.x+'px'
+			cursor.style.top=pos.y+'px'
+		}
+		function remove(id){
+			var cursor=document.getElementById('cursor-'+id)
+		}
+	</script>
+</head>
+<body>
+	<h1>websocket</h1>
+</body>
+</html>

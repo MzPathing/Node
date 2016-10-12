@@ -1,0 +1,13 @@
+extends layout
+block body
+  if (authenticated)
+    p welcome back, #{me}
+    a(href='/logout') Logout
+  else if(signupEmail)
+    p Congratulations on sign up!please login below.
+    input(name='user[email]',type='text,value=signupEmail')
+  else
+    p welcome new visitor!
+    ul
+      li: a(href='/login') Login
+      li: a(href='/signup') Signup

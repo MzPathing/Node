@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>应用聊天程序</title>
+	<style>
+		#container{
+			text-align: left;
+			width: 600px;
+			margin:10px auto;
+		}
+		#connect{
+			width: 600px;
+			height:400px;
+			background-color:#ccc;
+			border:1px solid black;
+			margin:10px auto;
+		}
+		#msg{
+			background-color: white;
+			width: 500px;
+			height:20px;
+			line-height: 20px;
+			font-size: 20px;
+			border:1px solid black;
+		}
+		#btn{
+			float:right;
+		}
+	</style>
+	<script src="/socket.io/socket.io.js"></script><!--socket.io服务器端以HTTP方式提供的静态文件。而在服务器端，socket.io和Express绑定了同样的端口。所以，在静态页面中，可以直接用这个方式来请求服务器上的文件。-->
+	<script>
+		window.onload=function (){
+			var oUl=document.getElementById('connect')
+			var oIpt=document.getElementById('msg')
+			var btn=document.getElementById('btn')
+			var socket=io.connect()//这里变量我之前用io，因为io已经在之前的js文件中被当做了变量，所以会报错
+			socket.on('connect',function (){
+				var name=prompt("what's your name")
+				socket.emit('join',name)
+				socket.on('added',function(msg){//有人加入时提示信息
+					var oLi=document.createElement('li')
+					oLi.innerHTML=msg
+					oUl.appendChild(oLi)
+				})
+				socket.on('getmessage',function(msg){//有人发送消息时显示消息
+					var pMsg=JSON.parse(msg)
+					var oLi=document.createElement('li')
+					for(var i in pMsg){
+						oLi.innerHTML=i+'say:'+pMsg[i]
+					}
+					oUl.appendChild(oLi)
+				})
+				btn.onclick=function(){//自己发送消息
+					var oLi=document.createElement('li')
+					oLi.innerHTML='me'+oIpt.value
+					oUl.appendChild(oLi)
+					socket.emit('sendmessage','{"'+name+'":"'+oIpt.value+'"}')
+					console.log(name);
+					oIpt.value=''
+				}
+			})
+		}
+	</script>
+</head>
+<body>
+<div id='container'>
+	<h1>当前连接人数:<span id="num"></span></h1>
+	<ul id="connect"></ul>
+	<input type="text" id="msg">
+	<button id='btn'>提交</button>
+</div>
+
+</body>
+</html>

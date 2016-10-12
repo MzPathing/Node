@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>第三个socket程序</title>
+	<style>
+		#container{
+			text-align: left;
+			width: 600px;
+			margin:10px auto;
+		}
+		#connect{
+			width: 600px;
+			height:400px;
+			background-color:#ccc;
+			border:1px solid black;
+			margin:10px auto;
+		}
+		#msg{
+			background-color: white;
+			width: 500px;
+			height:20px;
+			line-height: 20px;
+			font-size: 20px;
+			border:1px solid black;
+		}
+		#btn{
+			float:right;
+		}
+	</style>
+	<script>
+		window.onload=function(){
+			var btn=document.getElementById('btn')
+			var ipt=document.getElementById('msg')
+			var connect=document.getElementById('connect')
+			btn.onclick=function (){
+				var ws=new WebSocket('ws://127.0.0.1:3000')
+				ws.onopen=function(){
+					ws.send(ipt.value)
+				}
+				ws.onmessage=function(ev){
+					var html='';
+					var obj=JSON.parse(ev.data)
+					var num=document.getElementById('num')
+					// num.innerHTML=obj
+					for(var i in obj){
+						html+=obj[i]+'<br>'
+					}
+					connect.innerHTML=html
+				}
+			}
+
+		}
+	</script>
+</head>
+<body>
+<div id='container'>
+	<h1>当前连接人数:<span id="num"></span></h1>
+	<div id='connect'></div>
+	<input type="text" id="msg">
+	<button id='btn'>提交</button>
+</div>
+
+</body>
+</html>
