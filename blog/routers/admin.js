@@ -1,5 +1,6 @@
 var express=require('express'),
 	Tag=require('../models/tags.js'),
+	User=require('../models/user.js'),
 	router=express.Router()
 router.get('/index',function(req,res,next){
 	res.render('admin/index',{title:"后台管理界面",username:"管理员"})
@@ -18,11 +19,10 @@ router.post('/addTags',function(req,res,next){//添加标签
 		tagArticle:0//标签初始化文章数目
 	})
 	tag.save()
-	res.render('admin/addSuccess',{title:"添加标签成功",username:"管理员"})
+	res.render('admin/addTagsSuccess',{title:"添加标签成功",username:"管理员"})
 })
 router.get('/showTags',function(req,res,next){//查看标签页面
 	Tag.find({},function(err,result){
-		console.log(result);
 		var html=[],css=[],javascript=[],node=[]//初始化四个板块，防止为undefined
 		result.forEach(function(value,index){
 			value.tags.forEach(function(tagValue,tagIndex){
@@ -59,7 +59,6 @@ router.post('/updateTags',function(req,res,next){//修改标签描述
 		if(err){
 			console.log("失败");
 		}else{
-			console.log(result)
 			res.json({num:1})
 		}
 	})
@@ -80,12 +79,73 @@ router.post('/removeTags',function(req,res,next){//修改标签描述
 		if(err){
 			console.log("失败");
 		}else{
-			console.log(result)
 			res.json({num:1})
 		}
 	})
 })
 router.get('/removeTagsSuccess',function(req,res,next){
 	res.render('admin/removeTagsSuccess',{title:"删除标签成功",username:"管理员"})
+})
+router.get('/showUsers',function(req,res,next){//查看用户界面
+	User.find({},function(err,result){
+		res.render('admin/showUsers',{title:"查看用户",username:"管理员",result:result})
+	})
+})
+router.get('/addUsers',function(req,res,next){//添加用户界面
+	res.render('admin/addUsers',{title:"添加用户",username:"管理员"})
+	next()
+})
+router.post('/addUsers',function(req,res,next){//添加用户界面
+	var user=new User({
+		username:req.body.username,
+		password:req.body.password,
+		contact:req.body.contact,
+		isAdmin:false
+	})
+	user.save()
+	res.render('admin/addUsersSuccess',{title:"添加用户",username:"管理员",username:req.body.username})
+	next()
+})
+
+router.get('/updateUsers',function(req,res,next){//修改用户页面
+	User.find({},function(err,result){
+		res.render('admin/updateUsers',{title:"修改标签",username:"管理员",users:result})
+	})
+})
+router.post('/updateUsers',function(req,res,next){//修改用户信息模块
+	User.update({
+		username:req.body.username//标签名字
+	},{
+		password:req.body.password
+	},function(err,result){
+		if(err){
+			console.log("失败");
+		}else{
+			res.json({num:1})
+		}
+	})
+})
+router.get('/updateUsersSuccess',function(req,res,next){
+	res.render('admin/updateUsersSuccess',{title:"修改标签",username:"管理员"})
+})
+router.get('/removeUsers',function(req,res,next){//删除标签页面
+	User.find({},function(err,result){
+		res.render('admin/removeUsers',{title:"删除标签",username:"管理员",users:result})
+		console.log(result);
+	})
+})
+router.post('/removeUsers',function(req,res,next){//修改标签描述
+	User.remove({
+		username:req.body.username//标签名字
+	},function(err,result){
+		if(err){
+			console.log("失败");
+		}else{
+			res.json({num:1})
+		}
+	})
+})
+router.get('/removeUsersSuccess',function(req,res,next){
+	res.render('admin/removeUsersSuccess',{title:"删除标签成功",username:"管理员"})
 })
 module.exports=router

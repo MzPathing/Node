@@ -1,0 +1,39 @@
+<!--删除用户-->
+<h1>删除用户</h1>
+<form>
+	<div class="dropdown">
+	  <button id="username" class="dropdown-toggle" data-toggle="dropdown">选择修改的用户<span class="caret"></span></button>
+	  <ul class="dropdown-menu" role="menu">
+	  <% for(var i in users){ %>
+	    <li class='user'><a href="javascript:;"><%= users[i].username %></a></li>
+	    <li class="divider"></li>
+	  <% } %>
+	  </ul>
+	</div>
+	<button id="submit" class="btn">提交</button>
+</form>
+<script>
+	window.onload=function(){
+		var username=$('#username'),
+			oLi=$('.dropdown-menu').find('.user')
+		oLi.each(function(){
+			$(this).click(function(value,index){
+				username.text($(this).text())
+			})
+		})
+		$('#submit').click(function(event){
+			$.ajax({
+				type:'post',
+				url:'removeUsers',
+				data:{
+					username:$('#username').text(),
+				},
+				dataType:'json',
+				success:function(result){
+					window.location.assign('/admin/removeUsersSuccess')
+				}
+			})
+			event.preventDefault()
+		})
+	}
+</script>

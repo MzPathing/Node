@@ -1,0 +1,17 @@
+<!--查看用户列表-->
+<ul>
+	<li>管理员用户</li>
+	<% for(var i in result){ %>
+		<% if(result[i].isAdmin){ %>
+			用户名字:<%= result[i].username %>
+			联系方式:<%= result[i].contact %>
+		<% } %>
+	<% } %>
+	<li>非管理员用户</li>
+	<% for(var i in result){ %>
+		<% if(!result[i].isAdmin){ %>
+			用户名字:<%= result[i].username %>
+			联系方式:<%= result[i].contact %></br>
+		<% } %>
+	<% } %>
+

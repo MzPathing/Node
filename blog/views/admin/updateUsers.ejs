@@ -1,0 +1,47 @@
+<!--修改用户-->
+<h1>修改用户</h1>
+<form>
+	<div class="dropdown">
+	  <button id="username" class="dropdown-toggle" data-toggle="dropdown">选择修改的用户<span class="caret"></span></button>
+	  <ul class="dropdown-menu" role="menu">
+	  <% for(var i in users){ %>
+	    <li class='user'><a href="javascript:;"><%= users[i].username %></a></li>
+	    <li class="divider"></li>
+	  <% } %>
+	  </ul>
+	</div>
+	<lable>重复密码</lable>
+	<input type="text" id="password" name="password">
+	<lable>确认密码</lable>
+	<input type="text" id="repassword" name="repassword">
+	<button id="submit" class="btn">提交</button>
+</form>
+<script>
+	window.onload=function(){
+		var username=$('#username'),
+			oLi=$('.dropdown-menu').find('.user')
+		oLi.each(function(){
+			$(this).click(function(value,index){
+				username.text($(this).text())
+			})
+		})
+		$('#submit').click(function(event){
+			if($('#password').val()!=$('#repassword').val()){
+				return false
+			}
+			$.ajax({
+				type:'post',
+				url:'/admin/updateUsers',
+				data:{
+					username:$('#username').text(),
+					password:$('#password').val()
+				},
+				dataType:'json',
+				success:function(result){
+					window.location.assign('/admin/updateUsersSuccess')
+				}
+			})
+			event.preventDefault()
+		})
+	}
+</script>
