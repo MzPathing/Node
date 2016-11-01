@@ -3,5 +3,6 @@ var mongoose=require('mongoose'),
 	module.exports=new schema({
 		username:String,
 		password:String,
-		contact:String
+		contact:String,
+		isAdmin:Boolean
 	})

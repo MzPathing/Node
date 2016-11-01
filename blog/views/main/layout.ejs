@@ -54,10 +54,10 @@
       <ul class="nav navbar-nav navbar-right">
       <% if(!username){ %>
         <li><a href="/signin">登录</a></li>
-        <li><a href="/signup">注册</a></li>
+        <li><a href="/register">注册</a></li>
       <% }else{ %>
         <li><a href="/personal"><%= username %></a></li>
-        <li><a href="signout">登出</a></li>
+        <li><a href="/signout">登出</a></li>
       <% } %>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -70,6 +70,6 @@
 
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
   <script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/register.js"></script>
+  <script src="js/register.js"></script>
 </body>
 </html>

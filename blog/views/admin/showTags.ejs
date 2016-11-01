@@ -1,0 +1,23 @@
+<!--查看标签页面-->
+<ul>
+	<li>html</li>
+	<% for(var i in html){ %>
+		标签名字:<%= html[i].tagName %>
+		包含内容:<%= html[i].tags %></br>
+	<% } %>
+	<li>css</li>
+	<% for(var i in css){ %>
+		标签名字:<%= css[i].tagName %>
+		包含内容:<%= css[i].tags %></br>
+	<% } %>
+	<li>javascript</li>
+	<% for(var i in javascript){ %>
+		标签名字:<%= javascript[i].tagName %>
+		包含内容:<%= javascript[i].tags %></br>
+	<% } %>
+	<li>node</li>
+	<% for(var i in node){ %>
+		标签名字:<%= node[i].tagName %>
+		包含内容:<%= node[i].tags %></br>
+	<% } %>
+</ul>

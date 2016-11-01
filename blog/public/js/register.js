@@ -59,17 +59,3 @@ $('#repassword').on('blur',function(){
 		$(this).parent().next().html("<span class='glyphicon glyphicon-ok'></span>"+"格式正确")
 	}
 })
-$('#signup').on('click',function(){
-	$.ajax({
-		type:'post',
-		url:'/signup',
-		data:{
-			username:$('#username'),
-			password:$('#password'),
-			repassword:$('#repassword'),
-			contact:$('#contact')
-		},
-		async:true,
-		dataType:'json'
-	})
-})

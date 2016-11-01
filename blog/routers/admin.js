@@ -1,6 +1,91 @@
 var express=require('express'),
+	Tag=require('../models/tags.js'),
 	router=express.Router()
-router.get('/users',function(req,res,next){
-	res.send('nihao')
+router.get('/index',function(req,res,next){
+	res.render('admin/index',{title:"后台管理界面",username:"管理员"})
+	next()
+})
+router.get('/addTags',function(req,res,next){
+	res.render('admin/addTags',{title:"添加标签",username:"管理员"})
+	next()
+})
+router.post('/addTags',function(req,res,next){//添加标签
+	var tags=req.body.tags||''//获取传输过来的标签分类，如果不存在就设置为空
+	var tag=new Tag({
+		tagName:req.body.tagName,//标签名字
+		tagDescription:req.body.tagDescription,
+		tags:tags,//标签分类
+		tagArticle:0//标签初始化文章数目
+	})
+	tag.save()
+	res.render('admin/addSuccess',{title:"添加标签成功",username:"管理员"})
+})
+router.get('/showTags',function(req,res,next){//查看标签页面
+	Tag.find({},function(err,result){
+		console.log(result);
+		var html=[],css=[],javascript=[],node=[]//初始化四个板块，防止为undefined
+		result.forEach(function(value,index){
+			value.tags.forEach(function(tagValue,tagIndex){
+				if(tagValue=='html'){
+					html.push(value)
+				}
+				if(tagValue=='css'){
+					css.push(value)
+				}
+				if(tagValue=='javascript'){
+					javascript.push(value)
+				}
+				if(tagValue=='node'){
+					node.push(value)
+				}
+			})
+		})
+		res.render('admin/showTags',{html:html,css:css,javascript:javascript,node:node,title:"查看标签",username:"管理员"})
+	})
+})
+router.get('/updateTags',function(req,res,next){//修改标签页面
+	Tag.find({},function(err,result){
+		res.render('admin/updateTags',{title:"修改标签",username:"管理员",tags:result})
+	})
+})
+
+router.post('/updateTags',function(req,res,next){//修改标签描述
+	Tag.update({
+		tagName:req.body.tagName,//标签名字
+	},{
+		tagName:req.body.tagName,
+		tagDescription:req.body.tagDescription
+	},function(err,result){
+		if(err){
+			console.log("失败");
+		}else{
+			console.log(result)
+			res.json({num:1})
+		}
+	})
+})
+router.get('/updateTagsSuccess',function(req,res,next){//删除标签成功提示界面
+	res.render('admin/updateTagsSuccess',{title:"修改标签成功",username:"管理员"})
+})
+
+router.get('/removeTags',function(req,res,next){//删除标签页面
+	Tag.find({},function(err,result){
+		res.render('admin/removeTags',{title:"删除标签",username:"管理员",tags:result})
+	})
+})
+router.post('/removeTags',function(req,res,next){//修改标签描述
+	Tag.remove({
+		tagName:req.body.tagName,//标签名字
+	},function(err,result){
+		if(err){
+			console.log("失败");
+		}else{
+			console.log(result)
+			res.json({num:1})
+		}
+	})
+})
+router.get('/removeTagsSuccess',function(req,res,next){
+	res.render('admin/removeTagsSuccess',{title:"删除标签成功",username:"管理员"})
 })
 module.exports=router

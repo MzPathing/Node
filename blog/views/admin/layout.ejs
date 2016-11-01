@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title><%= title %></title>
 	<!-- 新 Bootstrap 核心 CSS 文件 -->
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/main.css"><!--这里的地址最前面必须要加斜线，不然会请求数据失败-->
 
 
 
@@ -30,17 +30,35 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">Html&amp;Css</a></li>
-        <li><a href="#">Javascript</a></li>
-        <li><a href="#">Node</a></li>
+        <li><a href="#"></a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">用户管理<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Html&amp;Css</a></li>
+            <li><a href="#">添加用户</a></li>
             <li class="divider"></li>
-            <li><a href="#">Javascript</a></li>
+            <li><a href="#">修改用户</a></li>
             <li class="divider"></li>
-            <li><a href="#">Node</a></li>
+            <li><a href="#">删除用户</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">标签管理<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/admin/addTags">添加标签</a></li>
+            <li class="divider"></li>
+            <li><a href="/admin/updateTags">修改标签</a></li>
+            <li class="divider"></li>
+            <li><a href="/admin/removeTags">删除标签</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">查看<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/admin/showTags">查看标签</a></li>
+            <li class="divider"></li>
+            <li><a href="#">查看用户</a></li>
+            <li class="divider"></li>
+            <li><a href="#">查看文章</a></li>
           </ul>
         </li>
         <li><a href="#">About</a></li>
@@ -54,10 +72,10 @@
       <ul class="nav navbar-nav navbar-right">
       <% if(!username){ %>
         <li><a href="/signin">登录</a></li>
-        <li><a href="/signup">注册</a></li>
+        <li><a href="/register">注册</a></li>
       <% }else{ %>
         <li><a href="/personal"><%= username %></a></li>
-        <li><a href="signout">登出</a></li>
+        <li><a href="/signout">登出</a></li>
       <% } %>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -66,10 +84,9 @@
 <%- body %>
 
 	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-	<script src="jQuery/jquery-3.1.0.min.js"></script>
+	<script src="/jQuery/jquery-3.1.0.min.js"></script>
 
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-  <script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/register.js"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

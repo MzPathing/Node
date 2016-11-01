@@ -1,0 +1,1 @@
+1.ajax与后台交互的时候不能通过express的res.render和res.redirect进行页面跳转，只能在表单提交post或者get的时候才可以用res.render和res.redirect进行页面跳转，解决方法：在ajax回调函数中通过添加window.location.assign('跳转地址')来跳转

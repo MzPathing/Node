@@ -11,10 +11,11 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "cookies": "^0.6.1",
+    "ejs": "2.5.2",
     "express": "^4.14.0",
+    "express-partials": "0.3.0",
+    "express-session": "^1.14.1",
     "markdown-js": ">=0.0.1",
-    "mongoose": "^4.6.0",
-    "ejs":"",
-    "express-partials": ""
+    "mongoose": "^4.6.0"
   }
 }

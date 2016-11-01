@@ -1,0 +1,42 @@
+<!--删除标签页面-->
+<h1>删除标签</h1>
+<form>
+	<div class="dropdown">
+	  <button id="tagName" class="dropdown-toggle" data-toggle="dropdown">选择修改的标签<span class="caret"></span></button>
+	  <ul class="dropdown-menu" role="menu">
+	  <% for(var i in tags){ %>
+	    <li class='tag'><a href="javascript:;"><%= tags[i].tagName %></a></li>
+		<span class="tagsDescription hidden"><%= tags[i].tagDescription %></span>
+	    <li class="divider"></li>
+	  <% } %>
+	  </ul>
+	</div>
+	<input type="textarea" id="description" name="description">
+	<button id="submit" class="btn">提交</button>
+</form>
+<script>
+	window.onload=function(){
+		var tagName=$('#tagName'),
+			oLi=$('.dropdown-menu').find('.tag')
+		oLi.each(function(){
+			$(this).click(function(value,index){
+				tagName.text($(this).text())
+				$('#description').val($(this).next().text())
+			})
+		})
+		$('#submit').click(function(event){
+			$.ajax({
+				type:'post',
+				url:'/admin/removeTags',
+				data:{
+					tagName:tagName.text(),
+				},
+				dataType:'json',
+				success:function(result){
+					window.location.assign('/admin/removeTagsSuccess')
+				}
+			})
+			event.preventDefault()
+		})
+	}
+</script>

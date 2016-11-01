@@ -3,15 +3,20 @@ var express=require('express'),
 	User=require('../models/User.js'),
 	registerResult={}
 router.get('/',function(req,res,next){
-	res.render('index',{
-		username:false,
+	console.log(req.session.username);
+	if(!req.session.username){
+		req.session.username=false
+	}
+	console.log(req.session.username+111);
+	res.render('main/index',{
+		username:req.session.username,
 		title:"首页",
 		layout:'layout'
 	})
 	next()
 })
 router.get('/register',function(req,res,next){
-	res.render('register',{
+	res.render('main/register',{
 		username:false,
 		title:"欢迎注册",
 		layout:'layout'
@@ -36,7 +41,7 @@ router.post('/register',function(req,res,next){//当用户注册username失去�
 	// },1000)
 	//修复bug
 	User.findOne({username:req.body.username},function(err,result){//这个地方应该是现有一个err，判断是否出错，之前忘记写了，并且数据库结构是username而不是user，重新定义一下数据库结构
-		var regexp=new RegExp('^[\\d]{2,10}$')//判断正则，用户名不能包括特殊字符并且1位以上10位以下,这里之前自己写的是[\\da-zA-Z]{2,5}，能匹配到最小位置但是不能匹配最大位置，有错
+		var regexp=new RegExp('^[\\w]{2,10}$')//判断正则，用户名不能包括特殊字符并且1位以上10位以下,这里之前自己写的是[\\da-zA-Z]{2,5}，能匹配到最小位置但是不能匹配最大位置，有错
 		// console.log(result);
 		if(!req.body.username){//如果用户名是空的或者undefined，返回用户名不能为空
 			registerResult.num=0
@@ -69,10 +74,40 @@ router.post('/signup',function(req,res,next){//当所有的数据都没有问题
 	var user=new User({
 		username:req.body.username,
 		password:req.body.password,
-		contact:req.body.contact
+		contact:req.body.contact,
+		isAdmin:false
 	})
 	user.save()
 	// console.log(user);
+	req.session.username=req.body.username
+	res.render('main/signupSuccess',{
+		title:"注册成功",
+		username:req.body.username
+	})
+	console.log(req.session.username);
 	next()
+})
+router.get('/signout',function(req,res,next){
+	req.session.username=false
+	res.render('main/index',{
+		username:req.session.username,
+		title:"首页",
+		layout:'layout'
+	})
+	next()
+})
+router.get('/signin',function(req,res,next){
+	res.render('main/signin',{title:'登录页面',username:false})
+})
+router.post('/signin',function(req,res,next){
+	User.findOne({username:req.body.username,password:req.body.password},function(err,result){
+		req.session.username=req.body.username
+		if(result.isAdmin==true){
+			res.redirect('admin/index')
+		}
+		else{
+			res.render('main/index',{username:req.session.username,title:'首页'})
+		}
+	})
 })
 module.exports=router

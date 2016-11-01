@@ -1,0 +1,54 @@
+<!--增加标签页面-->
+<h1 class="welcome-title">增加标签</h1>
+<div class="container">
+	<div class="row">
+		<form class="navbar-form" action="addTags" method="post">
+			<div class="input-group col-lg-4 col-xs-6 col-xs-offset-2 user-info">
+			  <span class="input-group-addon"><span class="glyphicon glyphicon-star text-info"></span></span>
+			  <input id="username" type="text" class="form-control " name="tagName" placeholder="请输入新增标签">
+			</div>
+			<div class="clearfix"></div>
+			<div class="input-group col-lg-4 col-xs-6 col-xs-offset-2 user-info">
+			  <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt text-info"></span></span>
+			  <input id="username" type="text" class="form-control " name="tagDescription" placeholder="请输入标签描述">
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="input-group col-lg-4 col-xs-6 col-xs-offset-2 user-info">
+			  <div class="checkbox">
+			    <label>
+			      <input type="checkbox" name="tags" value="html">
+			      html
+			    </label>
+			  </div>
+			  <div class="clearfix"></div>
+			  <div class="checkbox">
+			    <label>
+			      <input type="checkbox" name="tags" value="css">
+			      css
+			    </label>
+			  </div>
+			  <div class="clearfix"></div>
+			  <div class="checkbox">
+			    <label>
+			      <input type="checkbox" name="tags" value="html">
+			      javascript
+			    </label>
+			  </div>
+			  <div class="clearfix"></div>
+			  <div class="checkbox">
+			    <label>
+			      <input type="checkbox" name="tags" value="node">
+			      node
+			    </label>
+			  </div>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-lg-3 col-lg-offset-3">
+				<button id="signup" class="btn">提交</button>
+				<button id="reset" class="btn">重置</button>
+			</div>
+		</form>
+	</div>
+</div>

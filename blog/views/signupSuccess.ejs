@@ -1,0 +1,15 @@
+<p>注册成功，欢迎<%= username %></p>
+<p><span id="num">3</span>秒后自动登录</p>
+<script>
+	var num=document.getElementById('num')
+	var nowNum=3
+	setInterval(function(){
+		nowNum--
+		num.innerText=nowNum
+		if(nowNum<=0){
+			console.log(0)
+			window.location.assign('http://127.0.0.1:3000/')
+		}
+	},1000)
+	
+</script>
