@@ -1,0 +1,66 @@
+<!--修改文章-->
+<h1>修改文章</h1>
+<form>
+	<div class="dropdown">
+	  <button id="articleName" class="dropdown-toggle" data-toggle="dropdown">选择修改的文章<span class="caret"></span></button>
+	  <ul class="dropdown-menu" role="menu">
+	  <% for(var i in articles){ %>
+	    <li class='article'><a href="javascript:;"><%= articles[i].title %></a></li>
+	    <li class="divider"></li>
+	  <% } %>
+	  </ul>
+	</div>
+	<lable>文章描述</lable>
+	<input type="textarea" id="articleDescription" name="description"></br>
+	<lable>文章链接</lable>
+	<input type="textarea" id="articleLink" name="description"></br>
+	<lable>文章标签</lable>
+	<div class="dropdown">
+	  <button id="tagName" class="dropdown-toggle" data-toggle="dropdown" name="articleLable">选择文章所属的标签<span class="caret"></span></button>
+	  <ul class="dropdown-menu" role="menu">
+	  <% for(var i in articles){ %>
+	    <li class='tag'><a href="javascript:;"><%= tags[i].tagName %></a></li>
+	    <li class="divider"></li>
+	  <% } %>
+	  </ul>
+	</div>
+	<button id="submit" class="btn">提交</button></br>
+</form>
+<script>
+	window.onload=function(){
+		var tagName=$('#tagName'),
+			articleName=$('#articleName'),
+			oLi=$('.dropdown-menu').find('.tag'),
+			oArticle=$('.dropdown-menu').find('.article')
+
+		oArticle.each(function(value,index){
+			$(this).click(function(value,index){
+				articleName.text($(this).text())
+			})
+		})
+
+		oLi.each(function(value,index){
+			$(this).click(function(value,index){
+				tagName.text($(this).text())
+			})
+		})
+		$('#submit').click(function(event){
+			$.ajax({
+				type:'post',
+				url:'/admin/updateArticles',
+				data:{
+					articleTitle:$('#articleName').text(),
+					articleDescription:$('#description').val(),
+					articleLink:$('#articleLink').val(),
+					articleLable:$('#tagName').text(),
+					date:new Date()
+				},
+				dataType:'json',
+				success:function(result){
+					window.location.assign('/admin/updateArticlesSuccess')
+				}
+			})
+			event.preventDefault()
+		})
+	}
+</script>

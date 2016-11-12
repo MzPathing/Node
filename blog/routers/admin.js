@@ -1,6 +1,7 @@
 var express=require('express'),
-	Tag=require('../models/tags.js'),
-	User=require('../models/user.js'),
+	Tag=require('../models/Tag.js'),
+	User=require('../models/User.js'),
+	Article=require('../models/Article.js'),
 	router=express.Router()
 router.get('/index',function(req,res,next){
 	res.render('admin/index',{title:"后台管理界面",username:"管理员"})
@@ -84,7 +85,7 @@ router.post('/removeTags',function(req,res,next){//修改标签描述
 	})
 })
 router.get('/removeTagsSuccess',function(req,res,next){
-	res.render('admin/removeTagsSuccess',{title:"删除标签成功",username:"管理员"})
+	res.render('admin/removeSuccess',{title:"删除标签成功",username:"管理员"})
 })
 router.get('/showUsers',function(req,res,next){//查看用户界面
 	User.find({},function(err,result){
@@ -109,7 +110,7 @@ router.post('/addUsers',function(req,res,next){//添加用户界面
 
 router.get('/updateUsers',function(req,res,next){//修改用户页面
 	User.find({},function(err,result){
-		res.render('admin/updateUsers',{title:"修改标签",username:"管理员",users:result})
+		res.render('admin/updateUsers',{title:"修改标签",username:"管理员",users:result,layout:'layout'})
 	})
 })
 router.post('/updateUsers',function(req,res,next){//修改用户信息模块
@@ -128,10 +129,10 @@ router.post('/updateUsers',function(req,res,next){//修改用户信息模块
 router.get('/updateUsersSuccess',function(req,res,next){
 	res.render('admin/updateUsersSuccess',{title:"修改标签",username:"管理员"})
 })
+
 router.get('/removeUsers',function(req,res,next){//删除标签页面
 	User.find({},function(err,result){
 		res.render('admin/removeUsers',{title:"删除标签",username:"管理员",users:result})
-		console.log(result);
 	})
 })
 router.post('/removeUsers',function(req,res,next){//修改标签描述
@@ -146,6 +147,85 @@ router.post('/removeUsers',function(req,res,next){//修改标签描述
 	})
 })
 router.get('/removeUsersSuccess',function(req,res,next){
-	res.render('admin/removeUsersSuccess',{title:"删除标签成功",username:"管理员"})
+	res.render('admin/removeSuccess',{title:"删除成功",username:"管理员"})
+})
+
+
+
+
+
+router.get('/showArticles',function(req,res,next){//查看标签页面
+	Article.find({},function(err,result){
+		res.render('admin/showArticles',{articles:result,title:"查看文章",username:"管理员"})
+	})
+})
+router.get('/addArticles',function(req,res,next){//添加用户界面
+	Tag.find({},function(err,result){
+		res.render('admin/addArticles',{title:"添加文章",username:"管理员",tags:result})
+	})
+})
+router.post('/addArticles',function(req,res,next){//添加用户界面
+	var date=new Date()
+	var article=new Article({
+		title:req.body.articleTitle,
+		describe:req.body.articleDescribe,
+		link:req.body.articleLink,
+		lable:req.body.articleLable,
+		date:date
+	})
+	console.log(req.body.articleLable);
+	article.save()
+	res.render('admin/addUsersSuccess',{title:"添加用户",username:"管理员",username:req.body.username})
+	next()
+})
+
+router.get('/updateArticles',function(req,res,next){//修改用户页面
+	Article.find({},function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			Tag.find({},function(err,result1){{
+				res.render('admin/updateArticles',{title:"修改文章",username:"管理员",articles:result,tags:result1,layout:'layout'})
+			}})
+		}
+	})
+})
+router.post('/updateArticles',function(req,res,next){//修改文章模块
+	Article.update({
+		title:req.body.articleTitle//查找对于的文章名
+	},{
+		describe:req.body.articleDescription,//文章描述
+		lable:req.body.articleLable,//文章标签，如所属html、JavaScript等
+		date:req.body.date,//文章发表时间
+		link:req.body.articleLink//文章链接
+	},function(err,result){
+		if(err){
+			console.log("失败");
+		}else{
+			res.json({num:1})
+		}
+	})
+})
+router.get('/updateArticlesSuccess',function(req,res,next){
+	res.render('admin/updateArticlesSuccess',{title:"修改文章",username:"管理员"})
+})
+router.get('/removeArticles',function(req,res,next){//删除标签页面
+	Article.find({},function(err,result){
+		res.render('admin/removeArticles',{title:"删除标签",username:"管理员",articles:result})
+	})
+})
+router.post('/removeArticles',function(req,res,next){//修改标签描述
+	Article.remove({
+		title:req.body.articleTitle//文章名字
+	},function(err,result){
+		if(err){
+			console.log("失败");
+		}else{
+			res.json({num:1})
+		}
+	})
+})
+router.get('/removeArticlesSuccess',function(req,res,next){
+	res.render('admin/removeArticlesSuccess',{title:"删除文章成功",username:"管理员"})
 })
 module.exports=router

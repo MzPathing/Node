@@ -1,0 +1,9 @@
+<h1>文章列表</h1>
+<% for(var i in articles) {%>
+	文章题目：<%= articles[i].title %><br>
+	文章描述：<%= articles[i].describe %><br>
+	发表时间：<%= articles[i].date %><br>
+	文章标签：<%= articles[i].lable %><br>
+	文章连接：<%= articles[i].link %><br>
+	文章评论：<%= articles[i].comment %><br>
+<% } %>

@@ -1,0 +1,54 @@
+<!--修改文章-->
+<h1>修改文章</h1>
+<form>
+	<div class="dropdown">
+	  <button id="articleName" class="dropdown-toggle" data-toggle="dropdown">选择修改的文章<span class="caret"></span></button>
+	  <ul class="dropdown-menu" role="menu">
+	  <% for(var i in articles){ %>
+	    <li class='article'><a href="javascript:;"><%= articles[i].title %></a></li>
+	    <li class="divider"></li>
+	  <% } %>
+	  </ul>
+	</div>
+	<lable>文章描述</lable>
+	<input type="textarea" id="articleDescription" name="description"></br>
+	<lable>文章链接</lable>
+	<input type="textarea" id="articleLink" name="description"></br>
+	<lable>文章标签</lable>
+	<input type="textarea" id="articleLable" name="description"></br>
+	<button id="submit" class="btn">提交</button></br>
+</form>
+<script>
+	window.onload=function(){
+		var tagName=$('#tagName'),
+			articleName=$('#articleName'),
+			oArticle=$('.dropdown-menu').find('.article'),
+			articles= JSON.parse('<%- JSON.stringify(articles) %>');
+		oArticle.each(function(value,index){
+			$(this).click(function(value,index){
+				articleName.text($(this).text())
+				for(var i in articles){
+					if(articles[i].title==$(this).text()){
+						$('#articleDescription').val(articles[i].describe)
+						$('#articleLink').val(articles[i].link)
+						$('#articleLable').val(articles[i].lable)
+					}
+				}
+			})
+		})
+		$('#submit').click(function(event){
+			$.ajax({
+				type:'post',
+				url:'/admin/removeArticles',
+				data:{
+					articleTitle:$('#articleName').text()
+				},
+				dataType:'json',
+				success:function(result){
+					window.location.assign('/admin/removeArticlesSuccess')
+				}
+			})
+			event.preventDefault()
+		})
+	}
+</script>

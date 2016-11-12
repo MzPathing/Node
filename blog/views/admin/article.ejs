@@ -68,7 +68,7 @@
             <li class="divider"></li>
             <li><a href="/admin/showUsers">查看用户</a></li>
             <li class="divider"></li>
-            <li><a href="showArticles">查看文章</a></li>
+            <li><a href="#">查看文章</a></li>
           </ul>
         </li>
         <li><a href="#">About</a></li>
@@ -92,7 +92,15 @@
   </div><!-- /.container-fluid -->
 </nav>
 <%- body %>
-
+<form action="">
+    <lable>文章题目</lable>
+    <input type="input" value=<%= title %> name="title">
+    <lable>请输入您的评论</lable>
+    <input type="textarea" name="comment">
+</form>
+  <input type="input" value=<%= title %> name="title">
+  <lable>请输入您的评论</lable>
+  <input type="textarea" name="comment">
 	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 	<script src="/jQuery/jquery-3.1.0.min.js"></script>
 
